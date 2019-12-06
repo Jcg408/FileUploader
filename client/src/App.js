@@ -1,15 +1,12 @@
 import React from 'react';
 import './App.css';
 
-function App() {
-  return (
+const  App = ()=>  {
+  
     <div className="App">
-      <header className="App-header">
-      
-       
-      </header>
+      <h1>File Uploader</h1>
     </div>
-  );
+
 }
 
 export default App;
