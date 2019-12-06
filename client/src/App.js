@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
 
-const  App = ()=>  {
+const  App = ()=>  
   
     <div className="App">
-      <h1>File Uploader</h1>
+       <h1>File Uploader</h1>
     </div>
 
-}
+
 
 export default App;
