@@ -1,5 +1,5 @@
 {
-  "name": "FileUploader",
+  "name": "fileupload",
   "version": "1.0.0",
   "description": "React app using express-fileupload",
   "main": "index.js",
