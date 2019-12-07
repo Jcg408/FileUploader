@@ -24,8 +24,8 @@ const FileUpload = () => {
             const { fileName, filePath } = res.data;
             setUploaded({ fileName, filePath });
         } catch (err) {
-            if(err.response.status===500) {
-                console.log('Error with server')
+            if (err.response.status === 500) {
+                console.log('Error with server');
             } else {
                 console.log(err.response.data.msg);
             }
@@ -51,6 +51,18 @@ const FileUpload = () => {
                     className='btn btn-primary btn-block mt-4'
                 />
             </form>
+            {uploaded ? (
+                <div className='row mt-5'>
+                    <div className='col-md-6 m-auto'>
+                        <h3 className='text-center'> {uploaded.fileName}</h3>
+                        <img
+                            style={{ width: '80%' }}
+                            src={uploaded.filePath}
+                            alt=''
+                        />
+                    </div>
+                </div>
+            ) : null}
         </Fragment>
     );
 };
