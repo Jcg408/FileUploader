@@ -1,20 +1,35 @@
 import React, { Fragment, useState } from 'react';
-
+import axios from 'axios';
 
 const FileUpload = () => {
     const [file, setFile] = useState(' ');
     const [filename, setFilename] = useState('Choose File');
+    const [uploaded, setUploaded] = useState({});
 
     const handleChange = event => {
         setFile(event.target.files[0]);
         setFilename(event.target.files[0].name);
     };
 
-    const handleSubmit = async  event => {
+    const handleSubmit = async event => {
         event.preventDefault();
         const formData = new FormData();
         formData.append('file', file);
-       
+        try {
+            const res = await axios.post('/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            const { fileName, filePath } = res.data;
+            setUploaded({ fileName, filePath });
+        } catch (err) {
+            if(err.response.status===500) {
+                console.log('Error with server')
+            } else {
+                console.log(err.response.data.msg);
+            }
+        }
     };
     return (
         <Fragment>
