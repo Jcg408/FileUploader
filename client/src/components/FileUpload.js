@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import Message from './Message'
+import Message from './Message';
+import Progress from './Progress';
 import axios from 'axios';
 
 //state
@@ -8,6 +9,7 @@ const FileUpload = () => {
     const [filename, setFilename] = useState('Choose File');
     const [uploaded, setUploaded] = useState({});
     const [message, setMessage] = useState('');
+    const [uploadPercent, setUploadPercent] = useState(0);
 
     const handleChange = event => {
         setFile(event.target.files[0]);
@@ -22,18 +24,23 @@ const FileUpload = () => {
             const res = await axios.post('/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
+                },
+                // set progress bar
+                onUploadProgress: progressEvent => {
+                    setUploadPercent( parseInt(Math.round((progressEvent.loaded * 100) /progressEvent.total)));
+                    // clear percentage
+                    setTimeout(() => setUploadPercent(0), 10000);
                 }
             });
             const { fileName, filePath } = res.data;
             setUploaded({ fileName, filePath });
 
             setMessage('File Uploaded');
-            
         } catch (err) {
             if (err.response.status === 500) {
-               setMessage('Error with server');
+                setMessage('Error with server');
             } else {
-               setMessage(err.response.data.msg);
+                setMessage(err.response.data.msg);
             }
         }
     };
@@ -52,6 +59,7 @@ const FileUpload = () => {
                         {filename}
                     </label>
                 </div>
+                <Progress percentage ={uploadPercent} />
                 <input
                     type='submit'
                     value='Upload'
@@ -71,7 +79,6 @@ const FileUpload = () => {
                 </div>
             ) : null}
         </Fragment>
-       
     );
 };
 
